@@ -21,10 +21,13 @@ error_reporting(0);
     
     if (mysqli_query($conn, $sql)) {
       echo "<h1>Thank yor for sharing data</h1>";
-     echo '<script>location.replace("https://finacode.in/ddjas/index.html?c=y")</script>'; 
+      alert("Thank you for sharing data.");
+     echo '<script>location.replace("https://finacode.in/ddjas/thanks.html")</script>'; 
     } else {
       //echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+      alert("Unable to update. Please try again.");
       echo '<script>location.replace("https://finacode.in/ddjas/index.html?c=n")</script>'; 
+      
     }
     
     mysqli_close($conn);
