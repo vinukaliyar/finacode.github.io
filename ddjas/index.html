@@ -9,6 +9,19 @@
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script>
+  var url = new URL(window.location.href);
+  var c = url.searchParams.get("c");
+
+  if (c == 'y'){
+    document.getElementById("c").innerHTML = "Thank you for sharing data.";
+  }
+  
+  if(c == 'n'){
+    document.getElementById("c").innerHTML = "Unable to update. Please try again.";
+  }
+
+</script>
 
 <body onload="getLocation()">
 
@@ -20,30 +33,40 @@
 </nav>
 <div class="card">
   <div class="card-body">
+    <p id="c"></p>
     <h5 class="card-title">Share Your Store Location</h5>
     <p class="card-text">
 	Allow location access.<br>
 	This is part of data collection of location identification for enhancing deivery of your order from Deepak Distributors. Please enter your store code and click submit button.<br>
-	Submit from your store only.
+	Submit from your store only.<br>
+  <ul>
+    <li>Click Get Location Data Button.</li>
+    <li>Enter your store code.</li>
+    <li>Submit form</li>
+  </ul>
 	</p>
-	<button onlick="getLocation()">Get Location Data</button>
-	<form action="" id="addlocation" method="POST">
-	Enter Store Code <i>(last 5 digits only)</i>
-	<input type="text" class="form-control" name="s_code" required>
-	Latitude
-	<input type="text" class="form-control" name="lat" id="lat" readonly required>
-	Longitude
-	<input type="text" class="form-control" name="lon" id="lon"  readonly required>
-	<br>
-	<input type="submit" class="btn btn-primary">
-</form>
+	<button onlick="getLocation()" class="btn btn-info">Get Location Data</button>
+	<div id="form-container">
+      <form method="POST" id="add_location">
+      Enter Store Code <i>(last 5 digits only)</i>
+      <input type="number" class="form-control" name="s_code" required>
+      Latitude
+      <input type="text" class="form-control" name="lat1" id="lat1" required>
+      Longitude
+      <input type="text" class="form-control" name="lon1" id="lon1" required>
+      <br>
+      <input type="hidden" class="form-control" name="lat" id="lat" readonly required>
+      <input type="hidden" class="form-control" name="lon" id="lon" readonly required>
+      <input type="submit" class="btn btn-primary">
+    </form>
+  </div>
   </div>
 </div>
 <p id="demo"></p>
 <div>
 <p align="center">Powered by Finacode.in</p>
 </div>
-<script>
+<script type="text/javascript">
 var x = document.getElementById("demo");
 
 function getLocation() {
@@ -58,13 +81,16 @@ function showPosition(position) {
   
   document.getElementById("lat").value = position.coords.latitude;
   document.getElementById("lon").value = position.coords.longitude;
+
+  document.getElementById("lat1").value = position.coords.latitude;
+  document.getElementById("lon1").value = position.coords.longitude;
 }
 
 // <!-- Ajax Add Task -->
-	$('#addlocation').submit(function(e){
+	$('#add_location').submit(function(e){
         e.preventDefault(); // Prevent Default Submission
         $.ajax({
-        url: 'post.php',
+        url: 'https://dd-jas-location.000webhostapp.com/post.php',
         type: 'POST',
         data: $(this).serialize(), // it will serialize the form data
             dataType: 'html'
@@ -73,7 +99,7 @@ function showPosition(position) {
 			$('#message').fadeIn('slow').html(data);
         })
         .fail(function(){
-            alert('Unable to Update Ticket.');    
+            alert('Unable to Update Data.');    
         });
 	});
 

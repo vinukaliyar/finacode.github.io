@@ -1,27 +1,30 @@
 <?php
+error_reporting(0);
     $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "store_loc";
+    $username = "id16238619_admin";
+    $password = "l@J33!%*gWN|G]wn";
+    $dbname = "id16238619_store_loc";
 
     $s_code = $_POST['s_code'];
-    $lan = $_POST['lan'];
+    $lan = $_POST['lat'];
     $lon = $_POST['lon'];
     
     // Create connection
     $conn = mysqli_connect($servername, $username, $password, $dbname);
     // Check connection
     if (!$conn) {
-      die("Connection failed: " . mysqli_connect_error());
+     // die("Connection failed: " . mysqli_connect_error());
     }
     
     $sql = "INSERT INTO stores (s_code, lan, lon)
     VALUES ('$s_code', '$lan', '$lon')";
     
     if (mysqli_query($conn, $sql)) {
-      echo "<script> alert('Thank yor for sharing data'); </script>";
+      echo "<h1>Thank yor for sharing data</h1>";
+     echo '<script>location.replace("https://finacode.in/ddjas/index.html?c=y")</script>'; 
     } else {
-      echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+      //echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+      echo '<script>location.replace("https://finacode.in/ddjas/index.html?c=n")</script>'; 
     }
     
     mysqli_close($conn);
